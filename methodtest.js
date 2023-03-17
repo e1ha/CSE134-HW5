@@ -19,13 +19,12 @@ async function postBtnClickEvent() {
     let url = `https://httpbin.org/post`;
 
     if (document.getElementById('XML-method').checked) {
-        console.log("xml method");
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE) {
                 if (this.status === 200) {
                     const resp = JSON.parse(this.responseText);
-                    output.innerHTML = JSON.stringify(resp);
+                    output.innerHTML = prettifyOutput(resp);
                 } else {
                     console.log('Error:', this.statusText);
                 }
@@ -34,7 +33,6 @@ async function postBtnClickEvent() {
         xhr.open('POST', url);
         xhr.send(JSON.stringify(formData));
     } else {
-        console.log('fetch');
         const response = await fetch(url, {
             method: 'POST', 
             body: JSON.stringify(formData)
@@ -43,7 +41,7 @@ async function postBtnClickEvent() {
             throw new Error('Error fetching response.');
         } else {
             const data = await response.json();
-            output.innerHTML = prettifyOutput(JSON.stringify(data));
+            output.innerHTML = prettifyOutput(data);
         }
     }
 }
@@ -58,7 +56,7 @@ async function getBtnClickEvent() {
             if (this.readyState === XMLHttpRequest.DONE) {
                 if (this.status === 200) {
                     const resp = JSON.parse(this.responseText);
-                    output.innerHTML = JSON.stringify(resp);
+                    output.innerHTML = prettifyOutput(resp);
                 } else {
                     console.log('Error:', this.statusText);
                 }
@@ -67,7 +65,6 @@ async function getBtnClickEvent() {
         xhr.open('GET', url);
         xhr.send();
     } else {
-        console.log('fetch');
         const response = await fetch(url, {
             method: 'GET', 
         }) 
@@ -75,7 +72,7 @@ async function getBtnClickEvent() {
             throw new Error('Error fetching response.');
         } else {
             const data = await response.json();
-            output.innerHTML = JSON.stringify(data);
+            output.innerHTML = prettifyOutput(data);
         }
     }
 }
@@ -90,7 +87,7 @@ async function deleteBtnClickEvent() {
             if (this.readyState === XMLHttpRequest.DONE) {
                 if (this.status === 200) {
                     const resp = JSON.parse(this.responseText);
-                    output.innerHTML = JSON.stringify(resp);
+                    output.innerHTML = prettifyOutput(resp);
                 } else {
                     console.log('Error:', this.statusText);
                 }
@@ -99,7 +96,6 @@ async function deleteBtnClickEvent() {
         xhr.open('DELETE', url); 
         xhr.send();
     }  else {
-        console.log('fetch');
         const response = await fetch(url, {
             method: 'DELETE', 
         }) 
@@ -107,7 +103,7 @@ async function deleteBtnClickEvent() {
             throw new Error('Error fetching response.');
         } else {
             const data = await response.json();
-            output.innerHTML = JSON.stringify(data);
+            output.innerHTML = prettifyOutput(data);
         }
     }
 }
@@ -126,7 +122,7 @@ async function putBtnClickEvent() {
             if (this.readyState === XMLHttpRequest.DONE) {
                 if (this.status === 200) {
                     const resp = JSON.parse(this.responseText);
-                    output.innerHTML = JSON.stringify(resp);
+                    output.innerHTML = prettifyOutput(resp);
                 } else {
                     console.log('Error:', this.statusText);
                 }
@@ -135,7 +131,6 @@ async function putBtnClickEvent() {
         xhr.open('PUT', url);
         xhr.send(JSON.stringify(formData));
     } else {
-        console.log('fetch');
         const response = await fetch(url, {
             method: 'PUT', 
             body: JSON.stringify(formData)
@@ -144,17 +139,16 @@ async function putBtnClickEvent() {
             throw new Error('Error fetching response.');
         } else {
             const data = await response.json();
-            output.innerHTML = JSON.stringify(data);
+            output.innerHTML = prettifyOutput(data);
         }
     }
 }
 
 function prettifyOutput(response) {
-    console.log("inside here");
-    let text = "";
+    let text = "<ul>";
     for (const key in response) {
-        console.log(key);
-        text += key + ": " + response[key] + "\n";
+        text += "<li><b>" + key + ": </b> " + JSON.stringify(response[key]) + "</li><br>";
     }
+    text += "</ul>";
     return text;
 }
