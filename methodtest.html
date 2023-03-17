@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
     <header>
-        <meta charset="utf-8">
+        <meta charset="UTF-8">
         <title>method test</title>
+        <script type="module" src="methodtest.js"></script>
     </header>
 
     <body>
@@ -13,109 +14,20 @@
             <input id="article_name" name="article_name" type="text"><br>    
             <label for="article_body">Article Body: </label>
             <textarea id="article_body"></textarea>
-            <input id="date" name="date" value="" readonly><br>
-            <!-- <input id="postBtn" type="submit" value="postBtn" onclick="postBtnClickEvent()"> -->
-            <!-- <input id="getBtn" type="submit" value="getBtn">
-            <input id="putBtn" type="submit" value="putBtn">
-            <input id="deleteBtn" type="submit" value="deleteBtn"> -->
+            <input type="hidden" id="date" name="date" value="" readonly><br>
+            <input type="radio" id="XML-method" name="bestMethod">
+            <label for="XML-method">XML</label><br>
+            <input type="radio" id="fetch-method" name="bestMethod">
+            <label for="fetch-method">Fetch</label><br>
         </form>
 
-        <button id="postBtn" onclick="postBtnClickEvent()">postBtn</button>
-        <button id="getBtn" onclick="getBtnClickEvent()">getBtn</button>
-        <button id="putBtn" onclick="putBtnClickEvent()">putBtn</button>
-        <button id="deleteBtn" onclick="deleteBtnClickEvent()">deleteBtn</button>
+        <button id="postBtn">postBtn</button>
+        <button id="getBtn">getBtn</button>
+        <button id="putBtn">putBtn</button>
+        <button id="deleteBtn">deleteBtn</button>
         <hr>
         <output id="response"></output>
 
-        <script>
-            // QUESTION: we usually don't send information from form in a get request, but in
-            // this case it seems like we do? like we need to send id in order to get
-            // articl name and body? 
-
-            // QUESTION: all of these functions seem like the same it's just the end points and
-            // the request is different. 
-
-            let postBtn = document.getElementById("postBtn");
-            let getBtn = document.getElementById("getBtn");
-            let putBtn = document.getElementById("putBtn");
-            let deleteBtn = document.getElementById("deleteBtn");
-            let form = document.getElementsByTagName("form")[0];
-            let output= document.getElementsByTagName("output")[0];
-            let date = document.getElementById("date");
-            date.value = new Date();
-
-            // update/send a new form with all the entries?
-            function postBtnClickEvent() {
-                let formData = new FormData(form);
-                const xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
-                    if (this.readyState === XMLHttpRequest.DONE) {
-                        if (this.status === 200) {
-                            const resp = JSON.parse(this.responseText);
-                            output.innerHTML = JSON.stringify(resp);
-                        } else {
-                            console.log('Error:', this.statusText);
-                        }
-                    }
-                };
-                xhr.open('POST', `https://httpbin.org/post`);
-                xhr.send(formData);
-            }
-
-            // get data given form id?
-            function getBtnClickEvent() {
-                let formData = new FormData(form);
-                const xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
-                    if (this.readyState === XMLHttpRequest.DONE) {
-                        if (this.status === 200) {
-                            const resp = JSON.parse(this.responseText);
-                            output.innerHTML = JSON.stringify(resp);
-                        } else {
-                            console.log('Error:', this.statusText);
-                        }
-                    }
-                };
-                xhr.open('GET', `https://httpbin.org/get`); // all 3
-                xhr.send();
-            }
-
-            // delete data given id
-            function deleteBtnClickEvent() {
-                let formData = new FormData(form);
-                const xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
-                    if (this.readyState === XMLHttpRequest.DONE) {
-                        if (this.status === 200) {
-                            const resp = JSON.parse(this.responseText);
-                            output.innerHTML = JSON.stringify(resp);
-                        } else {
-                            console.log('Error:', this.statusText);
-                        }
-                    }
-                };
-                xhr.open('DELETE', `https://httpbin.org/delete`); // query
-                xhr.send(formData);
-            }
-
-            // update data needs all elements
-            function putBtnClickEvent() {
-                let formData = new FormData(form);
-                const xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
-                    if (this.readyState === XMLHttpRequest.DONE) {
-                        if (this.status === 200) {
-                            const resp = JSON.parse(this.responseText);
-                            output.innerHTML = JSON.stringify(resp);
-                        } else {
-                            console.log('Error:', this.statusText);
-                        }
-                    }
-                };
-                xhr.open('PUT', `https://httpbin.org/put`);
-                xhr.send(formData);
-            }
-        </script>
     </body>
 
 </html>
